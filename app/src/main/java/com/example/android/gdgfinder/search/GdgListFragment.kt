@@ -1,5 +1,6 @@
 package com.example.android.gdgfinder.search
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.ui.NavigationUI
 import com.example.android.gdgfinder.databinding.FragmentGdgListBinding
 import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
@@ -31,7 +33,7 @@ class GdgListFragment : Fragment() {
         val binding = FragmentGdgListBinding.inflate(inflater)
 
         // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
 
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
@@ -100,6 +102,7 @@ class GdgListFragment : Fragment() {
     /**
      * Start location updates, this will ask the operating system to figure out the devices location.
      */
+    @SuppressLint("MissingPermission")
     private fun startLocationUpdates(fusedLocationClient: FusedLocationProviderClient) {
         // if we don't have permission ask for it and wait until the user grants it
         if (ContextCompat.checkSelfPermission(requireContext(), LOCATION_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
